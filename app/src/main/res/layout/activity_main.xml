@@ -4,15 +4,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:attr/colorForeground"
     tools:context=".MainActivity">
 
-    <TextView
+    <ImageView
+        android:id="@+id/companyNameImg"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp"
+        android:contentDescription="@string/imgDesc"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/company_name_label" />
+
+    <ImageView
+        android:id="@+id/gtIconimg"
+        android:layout_width="292dp"
+        android:layout_height="263dp"
+        android:layout_marginTop="12dp"
+        android:contentDescription="@string/imgDescgtIcon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/companyNameImg"
+        app:srcCompat="@drawable/gt_image" />
+
+    <ImageView
+        android:id="@+id/gtPredictimg"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="40dp"
+        android:contentDescription="@string/imgDescGtPredict"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gtIconimg"
+        app:srcCompat="@drawable/gt_predict_label" />
+
+    <Button
+        android:id="@+id/gtPredictEnterbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="@string/btnDesc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/gtPredictimg"
+        app:layout_constraintVertical_bias="0.13999999" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
