@@ -44,13 +44,16 @@
 
     <Button
         android:id="@+id/gtPredictEnterbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="135dp"
+        android:layout_height="52dp"
+        android:background="@drawable/circularbutton"
+
         android:text="@string/btnDesc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gtPredictimg"
-        app:layout_constraintVertical_bias="0.13999999" />
+        app:layout_constraintVertical_bias="0.13999999"
+        app:rippleColor="#E62727" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
