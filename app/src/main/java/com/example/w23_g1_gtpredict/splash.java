@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 
@@ -22,6 +23,7 @@ public class splash extends AppCompatActivity {
 
         mySong = MediaPlayer.create(splash.this,R.raw.entrysound);
         mySong.start();
+
 
         appname=findViewById(R.id.appname);
         lottie=findViewById(R.id.lottie);

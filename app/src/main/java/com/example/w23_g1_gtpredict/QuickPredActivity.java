@@ -2,13 +2,21 @@ package com.example.w23_g1_gtpredict;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -16,6 +24,9 @@ public class QuickPredActivity extends AppCompatActivity {
     Spinner selectOutput;
     EditText editTextNumTemp;
     Button btnCalcQuick;
+    Animation animation;
+    ImageView imageView;
+    ObjectAnimator animator;
     final String TAG = "QuickCalcDemo";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +36,22 @@ public class QuickPredActivity extends AppCompatActivity {
         selectOutput = findViewById(R.id.selectOutput);
         editTextNumTemp = findViewById(R.id.editTextNumTemp);
         btnCalcQuick = findViewById(R.id.btnCalcQuick);
+        imageView=findViewById(R.id.imageView);
+
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.blink);
+
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            animator = ObjectAnimator.ofArgb(this, "color", Color.YELLOW, Color.GREEN,Color.MAGENTA,Color.RED);
+            animator.setDuration(8000);
+            animator.setInterpolator(new LinearInterpolator());
+        }
+
+        imageView.startAnimation(animation);
+        animator.start();
+
+
 
         selectOutput.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -102,5 +129,15 @@ startActivity(myResults);
 
     });
 
+    }
+    public void setColor(int color){
+        //intensity.setBackgroundColor(color);
+        imageView.setColorFilter(color, PorterDuff.Mode.OVERLAY);
+    }
+
+    @Override
+    public void finish(){
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
     }
 }
