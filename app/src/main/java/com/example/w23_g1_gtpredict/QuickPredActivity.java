@@ -131,6 +131,7 @@ startActivity(myResults);
 
     }
     public void setColor(int color){
+
         //intensity.setBackgroundColor(color);
         imageView.setColorFilter(color, PorterDuff.Mode.OVERLAY);
     }
