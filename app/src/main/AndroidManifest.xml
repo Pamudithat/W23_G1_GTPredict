@@ -12,6 +12,9 @@
         android:theme="@style/Theme.W23_G1_GTPredict"
         tools:targetApi="31">
         <activity
+            android:name=".graph"
+            android:exported="false" />
+        <activity
             android:name=".splash"
             android:exported="true">
             <intent-filter>
@@ -32,9 +35,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
 
         <meta-data
             android:name="preloaded_fonts"
