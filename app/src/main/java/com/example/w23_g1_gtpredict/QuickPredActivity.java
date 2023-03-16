@@ -117,6 +117,7 @@ bundle.putDouble("OUTPUT",output);
 
 myResults.putExtras(bundle);
 startActivity(myResults);
+overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
           }catch (Exception ex){
 
               ex.printStackTrace();
