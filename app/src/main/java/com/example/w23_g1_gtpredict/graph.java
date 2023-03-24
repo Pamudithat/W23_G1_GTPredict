@@ -28,6 +28,6 @@ public class graph extends AppCompatActivity {
                 new DataPoint(4, 6)
         });
         graph.addSeries(series);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }

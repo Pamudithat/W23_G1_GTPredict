@@ -53,6 +53,7 @@ public class upload_file extends AppCompatActivity {
                         Intent intent=new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
                         Uri uri=Uri.fromParts("package",getPackageName(),null);
                         startActivity(intent);
+                        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                     }
                 }
 //                else{
