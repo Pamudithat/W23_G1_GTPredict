@@ -6,9 +6,10 @@
     <string name="btnDesc">ENTER</string>
     <string name="txtViewActivity1"><![CDATA[Quick GT Power & EFF Calc.]]></string>
     <string name="textNumTemp">temp</string>
-    <string name="txtSpinnerPrompt">outputType</string>
+    <string name="txtSpinnerPrompt">OutputType</string>
     <string name="btnCalcQuick">Predict</string>
     <string-array name="outputType">
+
         <item>Power Output</item>
         <item>Efficiency</item>
     </string-array>

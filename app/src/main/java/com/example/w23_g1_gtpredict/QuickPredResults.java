@@ -7,11 +7,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
@@ -25,7 +33,9 @@ public class QuickPredResults extends AppCompatActivity {
     NavigationView navigationView;
     Toolbar toolbar;
     ActionBarDrawerToggle actionBarDrawerToggle;
-
+    ImageView endImage;
+    ObjectAnimator animator;
+    Animation animation;
     final String TAG = "QuickCalcDemo";
     final String TAG2 = "test";
     final String TAG3 = "test";
@@ -43,8 +53,24 @@ public class QuickPredResults extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_pred_results);
 
+        endImage=findViewById(R.id.endImage);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigationView);
+
+
+        animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.blink);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            animator = ObjectAnimator.ofArgb(this, "color", Color.YELLOW, Color.RED);
+            animator.setDuration(8000);
+            animator.setInterpolator(new LinearInterpolator());
+        }
+
+        endImage.startAnimation(animation);
+        animator.start();
+
+
+
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.menu_open,R.string.menu_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
@@ -57,17 +83,6 @@ public class QuickPredResults extends AppCompatActivity {
                         startActivity(new Intent(QuickPredResults.this,graph.class));
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
-
-//                    case R.id.nav_download:
-//                        startActivity(new Intent(QuickPredResults.this,upload_file.class));
-//                        drawerLayout.closeDrawer(GravityCompat.START);
-//                        break;
-
-                    case R.id.nav_upload:
-                        startActivity(new Intent(QuickPredResults.this,upload_file.class));
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                        break;
-
                 }
                 return true;
             }
@@ -84,8 +99,8 @@ public class QuickPredResults extends AppCompatActivity {
             String OutputType = bundle.getString("TYPE","error");
             DecimalFormat df = new DecimalFormat("#.0");
             DecimalFormat df1 = new DecimalFormat("#.0");
-                    String outputStr = "Output KPI Type: " + OutputType+ "\n" +"Current Temperature: " + df1.format(numTemp)+" degree C" +"\n" + OutputType+": "
-                            + df.format(output) +" Units" ;
+            String outputStr = "Output KPI Type: " + OutputType+ "\n" +"Current Temperature: " + df1.format(numTemp)+" degree C" +"\n" + OutputType+": "
+                    + df.format(output) +" Units" ;
 
             TextView textViewQuickResults = findViewById(R.id.textViewQuickResults);
             textViewQuickResults.setText(outputStr);
@@ -104,4 +119,11 @@ public class QuickPredResults extends AppCompatActivity {
         super.finish();
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
     }
+
+    public void setColor(int color){
+
+        //intensity.setBackgroundColor(color);
+        endImage.setColorFilter(color, PorterDuff.Mode.OVERLAY);
+    }
+
 }

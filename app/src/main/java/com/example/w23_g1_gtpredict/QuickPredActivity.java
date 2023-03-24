@@ -14,18 +14,26 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class QuickPredActivity extends AppCompatActivity {
     Spinner selectOutput;
     EditText editTextNumTemp;
     Button btnCalcQuick;
     Animation animation;
-    ImageView imageView;
+    LottieAnimationView imageView3;
+
+
     ObjectAnimator animator;
     final String TAG = "QuickCalcDemo";
     @Override
@@ -36,30 +44,34 @@ public class QuickPredActivity extends AppCompatActivity {
         selectOutput = findViewById(R.id.selectOutput);
         editTextNumTemp = findViewById(R.id.editTextNumTemp);
         btnCalcQuick = findViewById(R.id.btnCalcQuick);
-        imageView=findViewById(R.id.imageView);
+        imageView3=findViewById(R.id.imageView3);
+        final List<String> str =new ArrayList<>();
+        str.add(0,"Choose Category");
+        str.add("Power Output");
+        str.add("Efficiency");
 
 
-        animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.blink);
 
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            animator = ObjectAnimator.ofArgb(this, "color", Color.YELLOW, Color.GREEN,Color.MAGENTA,Color.RED);
-            animator.setDuration(8000);
-            animator.setInterpolator(new LinearInterpolator());
-        }
-
-        imageView.startAnimation(animation);
-        animator.start();
-
+        ArrayAdapter arrayAdapter =new ArrayAdapter(QuickPredActivity.this,android.R.layout.simple_dropdown_item_1line,str);
+        selectOutput.setAdapter(arrayAdapter);
 
 
         selectOutput.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i == 0){
+
+                if(selectOutput.getItemAtPosition(i).equals("Choose Category")){
+
+                }
+                else if (str.get(1).equals(selectOutput.getItemAtPosition(i).toString())){
                     Toast.makeText(QuickPredActivity.this, "Selected Power Output", Toast.LENGTH_SHORT).show();
-                } else  {
+                    imageView3.setAnimation(R.raw.wind);
+                    imageView3.playAnimation();
+
+                } else if(str.get(2).equals(selectOutput.getItemAtPosition(i).toString()))  {
                     Toast.makeText(QuickPredActivity.this, "Selected Efficiency", Toast.LENGTH_SHORT).show();
+                    imageView3.setAnimation(R.raw.lott1);
+                    imageView3.playAnimation();
                 }
             }
 
@@ -69,73 +81,68 @@ public class QuickPredActivity extends AppCompatActivity {
             }
         });
 
-    btnCalcQuick.setOnClickListener((View view) ->{
-      if (editTextNumTemp.getText().toString().isEmpty()){
+        btnCalcQuick.setOnClickListener((View view) ->{
+            if (editTextNumTemp.getText().toString().isEmpty()){
 
-          Toast.makeText(this, "Please enter an integer", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please enter an integer", Toast.LENGTH_SHORT).show();
 
+            }else{
 
-      }else{
+                try {
 
-          try {
+                    int numTemp = Integer.parseInt( editTextNumTemp.getText().toString());
 
-int numTemp = Integer.parseInt( editTextNumTemp.getText().toString());
-
-int index = selectOutput.getSelectedItemPosition();
-double output = 0;
-double corP,corE;
+                    int index = selectOutput.getSelectedItemPosition();
+                    double output = 0;
+                    double corP,corE;
 //Sampel corrections added for demo purpose as below with if logics ,full correction tables wil be added to SQL lite in futre
-if (numTemp >= 1 & numTemp  < 5)
-{corP = 0.99;corE =1.01;}
- if (numTemp >= 5 & numTemp  < 10) {
+                    if (numTemp >= 1 & numTemp  < 5)
+                    {corP = 0.99;corE =1.01;}
+                    if (numTemp >= 5 & numTemp  < 10) {
 
-              }
-              {
-    corP = 0.98;corE =1.02 ;
-}
-if (numTemp >= 10){
-                  corP = 0.97;corE =1.03 ;
-              }
-switch (index){
+                    }
+                    {
+                        corP = 0.98;corE =1.02 ;
+                    }
+                    if (numTemp >= 10){
+                        corP = 0.97;corE =1.03 ;
+                    }
+                    switch (index){
 
-    case 0:
+                        case 0:
 
-        output = corP*100;
-        break;
+                            output = corP*100;
+                            break;
 
-        case 1:
-    output = corE*80;
-    break;
+                        case 1:
+                            output = corE*80;
+                            break;
 
-}
-              Intent myResults = new Intent(QuickPredActivity.this,QuickPredResults.class);
+                    }
+                    Intent myResults = new Intent(QuickPredActivity.this,QuickPredResults.class);
 
-Bundle bundle = new Bundle();
-bundle.putInt("TEMP",numTemp);
-bundle.putString("TYPE",selectOutput.getSelectedItem().toString());
-bundle.putDouble("OUTPUT",output);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("TEMP",numTemp);
+                    bundle.putString("TYPE",selectOutput.getSelectedItem().toString());
+                    bundle.putDouble("OUTPUT",output);
 
-myResults.putExtras(bundle);
-startActivity(myResults);
-overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
-          }catch (Exception ex){
+                    myResults.putExtras(bundle);
+                    startActivity(myResults);
+                    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
+                }catch (Exception ex){
 
-              ex.printStackTrace();
-              Toast.makeText(this, "Must valid whole number", Toast.LENGTH_SHORT).show();
-          }
+                    ex.printStackTrace();
+                    Toast.makeText(this, "Must valid whole number", Toast.LENGTH_SHORT).show();
+                }
 
 
 
-      }
+            }
 
-    });
+        });
 
     }
-    public void setColor(int color){
 
-        //intensity.setBackgroundColor(color);
-        imageView.setColorFilter(color, PorterDuff.Mode.OVERLAY);
-    }
 
     @Override
     public void finish(){
