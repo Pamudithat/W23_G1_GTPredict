@@ -57,6 +57,17 @@ public class QuickPredResults extends AppCompatActivity {
                         startActivity(new Intent(QuickPredResults.this,graph.class));
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
+
+//                    case R.id.nav_download:
+//                        startActivity(new Intent(QuickPredResults.this,upload_file.class));
+//                        drawerLayout.closeDrawer(GravityCompat.START);
+//                        break;
+
+                    case R.id.nav_upload:
+                        startActivity(new Intent(QuickPredResults.this,upload_file.class));
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+
                 }
                 return true;
             }

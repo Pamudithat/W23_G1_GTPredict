@@ -4,8 +4,11 @@
         <item android:id="@+id/nav_chart" android:title="Display Chart"
             android:icon="@drawable/baseline_stacked_line_chart_24"/>
 
-        <item android:id="@+id/nav_download" android:title="Import/Export CSV"
+        <item android:id="@+id/nav_download" android:title="Export CSV"
             android:icon="@drawable/baseline_download_24"/>
+
+        <item android:id="@+id/nav_upload" android:title="Import CSV"
+            android:icon="@drawable/baseline_file_upload_24"/>
 
         <item android:id="@+id/nav_share" android:title="Share"
             android:icon="@drawable/baseline_share_24"/>
