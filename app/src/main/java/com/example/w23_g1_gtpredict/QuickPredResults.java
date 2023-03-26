@@ -39,6 +39,7 @@ public class QuickPredResults extends AppCompatActivity {
     final String TAG = "QuickCalcDemo";
     final String TAG2 = "test";
     final String TAG3 = "test";
+    String outputStr;
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -71,6 +72,34 @@ public class QuickPredResults extends AppCompatActivity {
 
 
 
+
+
+
+
+        int numTemp = 0;
+        try{
+
+            Bundle bundle = getIntent().getExtras();
+            double output = bundle.getDouble("OUTPUT",99999);
+            numTemp = getIntent().getExtras().getInt("TEMP",99999);
+            String OutputType = bundle.getString("TYPE","error");
+            DecimalFormat df = new DecimalFormat("#.0");
+            DecimalFormat df1 = new DecimalFormat("#.0");
+            outputStr = "Output KPI Type: " + OutputType+ "\n" +"Current Temperature: " + df1.format(numTemp)+" degree C" +"\n" + OutputType+": "
+                    + df.format(output) +" Units" ;
+
+            TextView textViewQuickResults = findViewById(R.id.textViewQuickResults);
+            textViewQuickResults.setText(outputStr);
+
+            textViewQuickResults.setGravity(Gravity.CENTER);
+        }
+        catch(Exception ex){
+
+            ex.printStackTrace();
+            Log.d(TAG,"wrong"+ numTemp);
+
+        }
+
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.menu_open,R.string.menu_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
@@ -88,6 +117,10 @@ public class QuickPredResults extends AppCompatActivity {
                         startActivity(new Intent(QuickPredResults.this,upload_file.class));
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
+
+                    case R.id.nav_email:
+                        send_email();
+                        break;
                 }
                 return true;
             }
@@ -95,29 +128,6 @@ public class QuickPredResults extends AppCompatActivity {
 
 
 
-        int numTemp = 0;
-        try{
-
-            Bundle bundle = getIntent().getExtras();
-            double output = bundle.getDouble("OUTPUT",99999);
-            numTemp = getIntent().getExtras().getInt("TEMP",99999);
-            String OutputType = bundle.getString("TYPE","error");
-            DecimalFormat df = new DecimalFormat("#.0");
-            DecimalFormat df1 = new DecimalFormat("#.0");
-            String outputStr = "Output KPI Type: " + OutputType+ "\n" +"Current Temperature: " + df1.format(numTemp)+" degree C" +"\n" + OutputType+": "
-                    + df.format(output) +" Units" ;
-
-            TextView textViewQuickResults = findViewById(R.id.textViewQuickResults);
-            textViewQuickResults.setText(outputStr);
-
-            textViewQuickResults.setGravity(Gravity.CENTER);
-        }
-        catch(Exception ex){
-
-            ex.printStackTrace();
-            Log.d(TAG,"wrong"+ numTemp);
-
-        }
     }
     @Override
     public void finish(){
@@ -129,6 +139,15 @@ public class QuickPredResults extends AppCompatActivity {
 
         //intensity.setBackgroundColor(color);
         endImage.setColorFilter(color, PorterDuff.Mode.OVERLAY);
+    }
+
+    public void send_email(){
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_EMAIL,"");
+        intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.app_name));
+        intent.putExtra(Intent.EXTRA_TEXT,outputStr);
+        intent.setType("message/rfc822");
+        startActivity(Intent.createChooser(intent, "Choose Email Client"));
     }
 
 }
