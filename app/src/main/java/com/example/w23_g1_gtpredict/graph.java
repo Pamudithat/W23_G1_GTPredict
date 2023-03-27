@@ -22,12 +22,16 @@ public class graph extends AppCompatActivity {
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
                 new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3),
-                new DataPoint(3, 2),
-                new DataPoint(4, 6)
+                new DataPoint(10, 50),
+                new DataPoint(20, 30),
+                new DataPoint(30, 25),
+                new DataPoint(40, 68),
+                new DataPoint(50, 89)
         });
         graph.addSeries(series);
+        series.setThickness(6);
+        series.setDrawDataPoints(true);
+        series.setAnimated(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }

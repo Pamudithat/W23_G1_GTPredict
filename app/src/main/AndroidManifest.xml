@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:allowBackup="true"
@@ -16,13 +17,16 @@
         android:theme="@style/Theme.W23_G1_GTPredict"
         tools:targetApi="31">
         <activity
+            android:name=".send_sms"
+            android:exported="false" />
+        <activity
             android:name=".upload_file"
             android:exported="false"
-            android:parentActivityName=".QuickPredResults"/>
+            android:parentActivityName=".QuickPredResults" />
         <activity
             android:name=".graph"
             android:exported="false"
-            android:parentActivityName=".QuickPredResults"/>
+            android:parentActivityName=".QuickPredResults" />
         <activity
             android:name=".splash"
             android:exported="true"

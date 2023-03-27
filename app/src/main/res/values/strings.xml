@@ -15,4 +15,6 @@
     </string-array>
     <string name="menu_open">Open</string>
     <string name="menu_close">Close</string>
+    <string name="txtPhone">Phone Number</string>
+    <string name="txtSend">Send SMS</string>
 </resources>

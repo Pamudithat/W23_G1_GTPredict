@@ -3,24 +3,34 @@ package com.example.w23_g1_gtpredict;
 //test
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.SmsManager;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.google.android.material.navigation.NavigationView;
@@ -40,6 +50,7 @@ public class QuickPredResults extends AppCompatActivity {
     final String TAG2 = "test";
     final String TAG3 = "test";
     String outputStr;
+    String phone;
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -121,6 +132,17 @@ public class QuickPredResults extends AppCompatActivity {
                     case R.id.nav_email:
                         send_email();
                         break;
+
+                    case R.id.nav_sms:
+                        Intent myResults = new Intent(QuickPredResults.this,send_sms.class);
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString("OUTPUT",outputStr);
+                        myResults.putExtras(bundle);
+                        startActivity(myResults);
+
+//                        startActivity(new Intent(QuickPredResults.this,send_sms.class));
+                        break;
                 }
                 return true;
             }
@@ -149,5 +171,6 @@ public class QuickPredResults extends AppCompatActivity {
         intent.setType("message/rfc822");
         startActivity(Intent.createChooser(intent, "Choose Email Client"));
     }
+
 
 }

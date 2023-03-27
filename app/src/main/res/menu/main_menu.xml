@@ -13,7 +13,8 @@
         <item android:id="@+id/nav_email" android:title="Send Email"
             android:icon="@drawable/baseline_email_24"/>
 
-
+        <item android:id="@+id/nav_sms" android:title="Send SMS"
+            android:icon="@drawable/baseline_sms_24"/>
     </group>
 
 </menu>
