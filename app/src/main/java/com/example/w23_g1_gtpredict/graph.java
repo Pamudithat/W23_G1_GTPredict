@@ -34,4 +34,6 @@ public class graph extends AppCompatActivity {
         series.setAnimated(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
+
 }

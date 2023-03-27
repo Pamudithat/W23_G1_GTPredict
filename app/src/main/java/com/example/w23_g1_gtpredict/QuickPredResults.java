@@ -34,8 +34,12 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.google.android.material.navigation.NavigationView;
+import com.opencsv.CSVWriter;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class QuickPredResults extends AppCompatActivity {
 
@@ -82,11 +86,6 @@ public class QuickPredResults extends AppCompatActivity {
         animator.start();
 
 
-
-
-
-
-
         int numTemp = 0;
         try{
 
@@ -129,8 +128,14 @@ public class QuickPredResults extends AppCompatActivity {
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
 
+                    case R.id.nav_download:
+                        download_csv();
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+
                     case R.id.nav_email:
                         send_email();
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         break;
 
                     case R.id.nav_sms:
@@ -141,7 +146,7 @@ public class QuickPredResults extends AppCompatActivity {
                         myResults.putExtras(bundle);
                         startActivity(myResults);
 
-//                        startActivity(new Intent(QuickPredResults.this,send_sms.class));
+                        drawerLayout.closeDrawer(GravityCompat.START);
                         break;
                 }
                 return true;
@@ -172,5 +177,29 @@ public class QuickPredResults extends AppCompatActivity {
         startActivity(Intent.createChooser(intent, "Choose Email Client"));
     }
 
+    public void download_csv(){
+//        if(ContextCompat.checkSelfPermission(QuickPredResults.this,
+//                Manifest.permission.WRITE_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED){
+//
+            ActivityCompat.requestPermissions(QuickPredResults.this,new String[]{
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE},0);
+//
+//        }else{
+           try{
+               File file = new File("/sdcard/Download/");
+               file.mkdirs();
+
+               String csv = "/sdcard/Download/report.csv";
+               CSVWriter csvWriter = new CSVWriter(new FileWriter(csv, true));
+               String row[] = new String[]{"test","123"};
+               csvWriter.writeNext(row);
+               csvWriter.close();
+               Toast.makeText(this, "File Successfully Downloaded", Toast.LENGTH_SHORT).show();
+
+           } catch (Exception e){
+               e.printStackTrace();
+           }
+        }
+//    }
 
 }

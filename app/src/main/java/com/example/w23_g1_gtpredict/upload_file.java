@@ -25,13 +25,13 @@ import java.util.Scanner;
 public class upload_file extends AppCompatActivity {
 
     private Button select;
-    private TextView csvText;
+    private TextView csvTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_file);
-        csvText=findViewById(R.id.csvtext);
+        csvTxt=findViewById(R.id.csvtext);
         select=findViewById(R.id.button);
 
         select.setOnClickListener(new View.OnClickListener() {
@@ -80,26 +80,26 @@ public class upload_file extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==101 && data!=null){
             fileuri=data.getData();
-            csvText.setText(readCSVFile(getFilePathFromUri(fileuri)));
+            csvTxt.setText(readCSVData(getFilePathFromUri(fileuri)));
         }
     }
 
 
     // this method is used for getting file path from uri
     public String getFilePathFromUri(Uri uri){
-        String[] filename1;
+        String[] filenme1;
         String fn;
         String filepath=uri.getPath();
         String filePath1[]=filepath.split(":");
-        filename1 =filepath.split("/");
-        fn=filename1[filename1.length-1];
+        filenme1 =filepath.split("/");
+        fn=filenme1[filenme1.length-1];
         return Environment.getExternalStorageDirectory().getPath()+"/"+filePath1[1];
     }
 
     //reading file data
 
-    public String readCSVFile(String path){
-        String filedata = null;
+    public String readCSVData(String path){
+        String filedata = "";
         File file=new File(path);
         try {
 
