@@ -25,6 +25,7 @@ import java.util.Scanner;
 public class upload_file extends AppCompatActivity {
 
     private Button select;
+    Button back;
     private TextView csvTxt;
 
     @Override
@@ -33,6 +34,7 @@ public class upload_file extends AppCompatActivity {
         setContentView(R.layout.activity_upload_file);
         csvTxt=findViewById(R.id.csvtext);
         select=findViewById(R.id.button);
+        back = findViewById(R.id.btnBack2);
 
         select.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +55,7 @@ public class upload_file extends AppCompatActivity {
                         Intent intent=new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
                         Uri uri=Uri.fromParts("package",getPackageName(),null);
                         startActivity(intent);
-                        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//                        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                     }
                 }
 //                else{
@@ -68,6 +70,14 @@ public class upload_file extends AppCompatActivity {
 //
 //
 //                }
+            }
+        });
+
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
     }

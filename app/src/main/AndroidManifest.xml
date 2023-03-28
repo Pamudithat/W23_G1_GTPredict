@@ -21,12 +21,10 @@
             android:exported="false" />
         <activity
             android:name=".upload_file"
-            android:exported="false"
-            android:parentActivityName=".QuickPredResults" />
+            android:exported="false"/>
         <activity
             android:name=".graph"
-            android:exported="false"
-            android:parentActivityName=".QuickPredResults" />
+            android:exported="false" />
         <activity
             android:name=".splash"
             android:exported="true"

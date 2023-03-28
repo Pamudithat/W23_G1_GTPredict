@@ -19,6 +19,7 @@ import android.widget.Toast;
 public class send_sms extends AppCompatActivity {
 
     Button send_sms;
+    Button back;
     EditText editTextPhone;
     String outputStr;
     String phone;
@@ -30,6 +31,7 @@ public class send_sms extends AppCompatActivity {
 
         send_sms = findViewById(R.id.btnSend);
         editTextPhone = findViewById(R.id.editTextPhone);
+        back = findViewById(R.id.btnBack);
 
         try{
             Bundle bundle = getIntent().getExtras();
@@ -57,5 +59,12 @@ public class send_sms extends AppCompatActivity {
                 }
             }
         });
+
+       back.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               onBackPressed();
+           }
+       });
     }
 }
