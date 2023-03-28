@@ -9,6 +9,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
@@ -33,6 +34,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.android.material.navigation.NavigationView;
 import com.opencsv.CSVWriter;
 
@@ -40,6 +44,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class QuickPredResults extends AppCompatActivity {
 
@@ -48,6 +53,8 @@ public class QuickPredResults extends AppCompatActivity {
     Toolbar toolbar;
     ActionBarDrawerToggle actionBarDrawerToggle;
     ImageView endImage;
+
+    ViewPager2 viewPager2;
     ObjectAnimator animator;
     Animation animation;
     final String TAG = "QuickCalcDemo";
@@ -69,21 +76,21 @@ public class QuickPredResults extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_pred_results);
 
-        endImage=findViewById(R.id.endImage);
+//        endImage=findViewById(R.id.endImage);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigationView);
 
 
-        animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.blink);
+//        animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.blink);
+//
+//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            animator = ObjectAnimator.ofArgb(this, "color", Color.YELLOW, Color.RED);
+//            animator.setDuration(8000);
+//            animator.setInterpolator(new LinearInterpolator());
+//        }
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            animator = ObjectAnimator.ofArgb(this, "color", Color.YELLOW, Color.RED);
-            animator.setDuration(8000);
-            animator.setInterpolator(new LinearInterpolator());
-        }
-
-        endImage.startAnimation(animation);
-        animator.start();
+//        endImage.startAnimation(animation);
+//        animator.start();
 
 
         int numTemp = 0;
@@ -109,6 +116,16 @@ public class QuickPredResults extends AppCompatActivity {
             Log.d(TAG,"wrong"+ numTemp);
 
         }
+
+         ImageSlider imageSlider = findViewById(R.id.imageSlider);
+         ArrayList<SlideModel> slideModels = new ArrayList<>();
+         slideModels.add(new SlideModel(R.drawable.turbine1, ScaleTypes.FIT));
+         slideModels.add(new SlideModel(R.drawable.turbine2, ScaleTypes.FIT));
+         slideModels.add(new SlideModel(R.drawable.turbine3, ScaleTypes.FIT));
+         slideModels.add(new SlideModel(R.drawable.turbine4, ScaleTypes.FIT));
+         slideModels.add(new SlideModel(R.drawable.turbine5, ScaleTypes.FIT));
+         imageSlider.setImageList(slideModels,ScaleTypes.FIT);
+
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.menu_open,R.string.menu_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);

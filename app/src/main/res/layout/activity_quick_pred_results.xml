@@ -1,44 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/mix"
     android:id="@+id/drawer_layout"
+    android:orientation="vertical"
     tools:context=".QuickPredResults">
 
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <com.denzcoskun.imageslider.ImageSlider
+            android:id="@+id/imageSlider"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:iss_auto_cycle="true"
+            app:iss_delay="1000"
+            app:iss_period="1000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:iss_corner_radius="12">
+
+        </com.denzcoskun.imageslider.ImageSlider>
+
+
         <TextView
             android:id="@+id/textViewQuickResults"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="32dp"
+            android:layout_width="347dp"
+            android:layout_height="200dp"
             android:textScaleX="@dimen/material_emphasis_high_type"
             android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/imageSlider" />
 
-        <ImageView
-            android:id="@+id/endImage"
-            android:layout_width="235dp"
-            android:layout_height="124dp"
-            app:layout_constraintBottom_toBottomOf="@+id/textViewQuickResults"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textViewQuickResults"
-            app:layout_constraintVertical_bias="0.869"
-            app:srcCompat="@drawable/gt_image" />
+<!--        <ImageView-->
+<!--            android:id="@+id/endImage"-->
+<!--            android:layout_width="235dp"-->
+<!--            android:layout_height="124dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/textViewQuickResults" />-->
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
@@ -47,7 +61,9 @@
         app:headerLayout="@layout/header_menu"
         app:menu="@menu/main_menu"
         android:fitsSystemWindows="true"
-        android:layout_gravity="start"/>
+        android:layout_gravity="start">
+
+    </com.google.android.material.navigation.NavigationView>
 
 
 </androidx.drawerlayout.widget.DrawerLayout>
