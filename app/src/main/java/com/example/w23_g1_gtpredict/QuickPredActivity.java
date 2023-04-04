@@ -86,7 +86,12 @@ public class QuickPredActivity extends AppCompatActivity {
 
                 Toast.makeText(this, "Please enter an integer", Toast.LENGTH_SHORT).show();
 
-            }else{
+            }else if(selectOutput.getSelectedItem().equals("Choose Category")){
+
+                Toast.makeText(this, "Please Choose Category", Toast.LENGTH_SHORT).show();
+
+            }
+            else{
 
                 try {
 
