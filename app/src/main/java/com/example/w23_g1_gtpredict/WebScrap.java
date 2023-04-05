@@ -3,6 +3,7 @@ package com.example.w23_g1_gtpredict;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,8 +11,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+//import org.jsoup.Jsoup;
+
 import org.jsoup.Jsoup;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -66,24 +70,25 @@ public class WebScrap extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(List<String> strings) {
-            super.onPostExecute(strings);
+           super.onPostExecute(strings);
             dis.setText(strings.get(0));
             precip.setText(strings.get(1));
             humidity.setText(strings.get(2));
             wind.setText(strings.get(3));
+
         }
 
         @Override
         protected List<String> doInBackground(String... strings) {
-            org.jsoup.nodes.Document document=null;
             List<String> info = new ArrayList<>();
-            try {
+           org.jsoup.nodes.Document document=null;
 
+            try {
                 //   String x="royal oak";
                 // String y="bc";
-                document=Jsoup.connect("https://www.google.com/search?q=weather+"+city+",+"+province).get();
-                Log.d("TAG","File got");
 
+                document=Jsoup.connect("https://www.google.com/search?q=weather+"+city+"+"+province).get();
+                Log.d("TAG","File got");
                 org.jsoup.select.Elements elements=document.getElementsByClass("wob_t q8U8x");
                 Log.d("TAG","class got");
                 thedescription=elements.text();
@@ -92,11 +97,11 @@ public class WebScrap extends AppCompatActivity {
                 org.jsoup.select.Elements elemen=document.getElementsByClass("wtsRwe");
                 alldata=elemen.text();
                 Log.d("TAG",alldata);
-                precipita=alldata.substring(0,19);
+                precipita=alldata.substring(0,18);
                 Log.d("TAG",precipita);
-                humid=alldata.substring(18,33);
+                humid=alldata.substring(18,32);
                 Log.d("TAG",humid);
-                win=alldata.substring(32,50);
+                win=alldata.substring(32,49);
                 Log.d("TAG",win);
                 String gx=dis.getText().toString();
                 Log.d("TAG",gx);
@@ -110,10 +115,16 @@ public class WebScrap extends AppCompatActivity {
 
             }
             catch(Exception ex){
+                Log.d("TAG","ERROR");
+                startActivity(new Intent(WebScrap.this,takedata.class));
                 Toast.makeText(WebScrap.this, "Please Enter the Right Place", Toast.LENGTH_SHORT).show();
                 ex.printStackTrace();
+
             }
-            return info;
+
+        return info;
+
+
         }
     }
 
