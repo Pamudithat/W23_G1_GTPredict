@@ -15,6 +15,9 @@
 
         <item android:id="@+id/nav_sms" android:title="Send SMS"
             android:icon="@drawable/baseline_sms_24"/>
+
+        <item android:id="@+id/nav_temp" android:title="Check Weather"
+            android:icon="@drawable/baseline_severe_cold_24"/>
     </group>
 
 </menu>

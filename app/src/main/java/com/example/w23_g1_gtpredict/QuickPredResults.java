@@ -124,6 +124,7 @@ public class QuickPredResults extends AppCompatActivity {
          slideModels.add(new SlideModel(R.drawable.turbine3, ScaleTypes.FIT));
          slideModels.add(new SlideModel(R.drawable.turbine4, ScaleTypes.FIT));
          slideModels.add(new SlideModel(R.drawable.turbine5, ScaleTypes.FIT));
+         slideModels.add(new SlideModel(R.drawable.turbine6, ScaleTypes.FIT));
          imageSlider.setImageList(slideModels,ScaleTypes.FIT);
 
 
@@ -163,6 +164,11 @@ public class QuickPredResults extends AppCompatActivity {
                         myResults.putExtras(bundle);
                         startActivity(myResults);
 
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+
+                    case R.id.nav_temp:
+                        startActivity(new Intent(QuickPredResults.this,takedata.class));
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
                 }
