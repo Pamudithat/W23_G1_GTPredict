@@ -175,11 +175,14 @@ public class upload_file extends AppCompatActivity {
                 if (numTemp >= 40){
                     corP = 0.95;corE =1.05 ;
                 }
-                //*****
+////                *****
                 double output1 = corP *100;
                 double output2 = corE *80;
-                gtDataDao.insertrecord(new GTData(numTemp, output1, output2));
+//
+               gtDataDao.insertrecord(new GTData(numTemp, output1, output2));
+
             }
+
 
         }
     }

@@ -22,4 +22,5 @@
     <string name="cityenter">Enter the City</string>
     <string name="Province">Province</string>
     <string name="Heading">Temperature</string>
+    <string name="txtBtn">Check  Temperature</string>
 </resources>

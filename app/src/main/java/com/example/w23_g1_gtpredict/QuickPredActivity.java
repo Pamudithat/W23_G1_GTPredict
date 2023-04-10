@@ -85,39 +85,42 @@ public class QuickPredActivity extends AppCompatActivity {
         btnCalcQuick.setOnClickListener((View view) ->{
 
 //-----
-            new bgthread().start();
 
- GTDatabase db = Room.databaseBuilder(getApplicationContext(),
-             GTDatabase.class, "GT_DB3").allowMainThreadQueries().build();
-            GTDataDao gtDataDao = db.gtDataDao();
-            List<GTData> gtdatas = gtDataDao.getallgtdatas();
-             //for (GTData item : gtdatas) {
+                new bgthread().start();
 
-                  GTData item = gtdatas.get(gtdatas.size()-1 );
+                GTDatabase db = Room.databaseBuilder(getApplicationContext(),
+                        GTDatabase.class, "GT_DB3").allowMainThreadQueries().build();
+                GTDataDao gtDataDao = db.gtDataDao();
+                List<GTData> gtdatas = gtDataDao.getallgtdatas();
+                //for (GTData item : gtdatas) {
+
+                GTData item = gtdatas.get(gtdatas.size() - 1);
                 // double output = 90000001.6 + item.Temp * item.corP + item.corE;
-                 //-----
-
-                 Intent myResults = new Intent(QuickPredActivity.this, QuickPredResults.class);
-
-                 Bundle bundle = new Bundle();
-                 bundle.putInt("TEMP", item.Temp);
-                 bundle.putString("TYPE", selectOutput.getSelectedItem().toString());
-           int index = selectOutput.getSelectedItemPosition();
-           double x = item.corP;
-           double y = item.corE;
-if (index==1){
-                 bundle.putDouble("OUTPUT", x); }
-else{
-            bundle.putDouble("OUTPUT", y);}
-
-                 myResults.putExtras(bundle);
-                 startActivity(myResults);
-                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-
-            // }
+                //-----
 
 
-           // }
+                Intent myResults = new Intent(QuickPredActivity.this, QuickPredResults.class);
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("TEMP", item.Temp);
+                bundle.putString("TYPE", selectOutput.getSelectedItem().toString());
+                int index = selectOutput.getSelectedItemPosition();
+                double x = item.corP;
+                double y = item.corE;
+                if (index == 1) {
+                    bundle.putDouble("OUTPUT", x);
+                } else {
+                    bundle.putDouble("OUTPUT", y);
+                }
+
+                myResults.putExtras(bundle);
+                startActivity(myResults);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+                // }
+
+
+                // }
 
         });
 
@@ -161,7 +164,7 @@ double output1 = corP *100;
             double output2 = corE *80;
            // gtDataDao.insertrecord(new GTData(1, 100, 80));
           // gtDataDao.insertrecord(new GTData(2, 99, 89));
-            gtDataDao.insertrecord(new GTData(numTemp, 300, output2));
+            gtDataDao.insertrecord(new GTData(numTemp, output1, output2));
 
         }
 
