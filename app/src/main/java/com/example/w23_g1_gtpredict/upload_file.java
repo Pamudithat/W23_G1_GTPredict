@@ -6,6 +6,7 @@ import static android.os.Build.VERSION.SDK_INT;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class upload_file extends AppCompatActivity {
@@ -27,6 +29,8 @@ public class upload_file extends AppCompatActivity {
     private Button select;
     Button back;
     private TextView csvTxt;
+
+    ArrayList<String> temp = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,15 +121,17 @@ public class upload_file extends AppCompatActivity {
             while (scanner.hasNextLine()){
 
                 String line=scanner.nextLine();
-                String [] splited=line.split(",");
-                String row="";
-                for (String s:splited){
+                temp.add(line);
+                filedata = filedata+line+"\n";
+              //  String [] splited=line.split(",");
+              //  String row="";
+               // for (String s:splited){
 
-                    row=row+s+"  ";
+                  //  row=row+s+"  ";
 
-                }
+              //  }
 
-                filedata=filedata+row+"\n";
+                //filedata=filedata+row+"\n";
 
             }
 
@@ -133,9 +139,49 @@ public class upload_file extends AppCompatActivity {
             e.printStackTrace();
             Toast.makeText(upload_file.this,"Error",Toast.LENGTH_SHORT).show();
         }
+        new bgthread().start();
 
         return filedata;
 
+    }
+
+    class bgthread extends Thread
+    {
+        public void run ()
+        {
+            super.run();
+            GTDatabase db = Room.databaseBuilder(getApplicationContext(),
+                    GTDatabase.class, "GT_DB3").build();
+            GTDataDao gtDataDao = db.gtDataDao();
+            for (String s:temp) {
+                int numTemp = Integer.parseInt( s.toString());
+                double corE =0;
+                double corP =0;
+                if (numTemp >= 1 & numTemp  < 5)
+                {corP = 0.99;corE =1.01;}
+                if (numTemp >= 5 & numTemp  < 10)
+                {
+                    corP = 0.98;corE =1.02 ;
+                }
+                if (numTemp >= 10 & numTemp  < 20)
+                {
+                    corP = 0.97;corE =1.03 ;
+                }
+
+                if (numTemp >= 30 & numTemp  < 40)
+                {
+                    corP = 0.96;corE =1.04 ;
+                }
+                if (numTemp >= 40){
+                    corP = 0.95;corE =1.05 ;
+                }
+                //*****
+                double output1 = corP *100;
+                double output2 = corE *80;
+                gtDataDao.insertrecord(new GTData(numTemp, output1, output2));
+            }
+
+        }
     }
 
 }

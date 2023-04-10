@@ -1,6 +1,7 @@
 package com.example.w23_g1_gtpredict;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent;
@@ -82,71 +83,94 @@ public class QuickPredActivity extends AppCompatActivity {
         });
 
         btnCalcQuick.setOnClickListener((View view) ->{
-            if (editTextNumTemp.getText().toString().isEmpty()){
 
-                Toast.makeText(this, "Please enter an integer", Toast.LENGTH_SHORT).show();
+//-----
+            new bgthread().start();
 
-            }else if(selectOutput.getSelectedItem().equals("Choose Category")){
+ GTDatabase db = Room.databaseBuilder(getApplicationContext(),
+             GTDatabase.class, "GT_DB3").allowMainThreadQueries().build();
+            GTDataDao gtDataDao = db.gtDataDao();
+            List<GTData> gtdatas = gtDataDao.getallgtdatas();
+             //for (GTData item : gtdatas) {
 
-                Toast.makeText(this, "Please Choose Category", Toast.LENGTH_SHORT).show();
+                  GTData item = gtdatas.get(gtdatas.size()-1 );
+                // double output = 90000001.6 + item.Temp * item.corP + item.corE;
+                 //-----
 
-            }
-            else{
+                 Intent myResults = new Intent(QuickPredActivity.this, QuickPredResults.class);
 
-                try {
+                 Bundle bundle = new Bundle();
+                 bundle.putInt("TEMP", item.Temp);
+                 bundle.putString("TYPE", selectOutput.getSelectedItem().toString());
+           int index = selectOutput.getSelectedItemPosition();
+           double x = item.corP;
+           double y = item.corE;
+if (index==1){
+                 bundle.putDouble("OUTPUT", x); }
+else{
+            bundle.putDouble("OUTPUT", y);}
 
-                    int numTemp = Integer.parseInt( editTextNumTemp.getText().toString());
+                 myResults.putExtras(bundle);
+                 startActivity(myResults);
+                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
-                    int index = selectOutput.getSelectedItemPosition();
-                    double output = 0;
-                    double corP,corE;
-//Sampel corrections added for demo purpose as below with if logics ,full correction tables wil be added to SQL lite in futre
-                    if (numTemp >= 1 & numTemp  < 5)
-                    {corP = 0.99;corE =1.01;}
-                    if (numTemp >= 5 & numTemp  < 10) {
-
-                    }
-                    {
-                        corP = 0.98;corE =1.02 ;
-                    }
-                    if (numTemp >= 10){
-                        corP = 0.97;corE =1.03 ;
-                    }
-                    switch (index){
-
-                        case 0:
-
-                            output = corP*100;
-                            break;
-
-                        case 1:
-                            output = corE*80;
-                            break;
-
-                    }
-                    Intent myResults = new Intent(QuickPredActivity.this,QuickPredResults.class);
-
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("TEMP",numTemp);
-                    bundle.putString("TYPE",selectOutput.getSelectedItem().toString());
-                    bundle.putDouble("OUTPUT",output);
-
-                    myResults.putExtras(bundle);
-                    startActivity(myResults);
-                    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
-                }catch (Exception ex){
-
-                    ex.printStackTrace();
-                    Toast.makeText(this, "Must valid whole number", Toast.LENGTH_SHORT).show();
-                }
+            // }
 
 
-
-            }
+           // }
 
         });
 
     }
+
+    //----------
+
+    class bgthread extends Thread
+    {
+        public void run ()
+        {
+            super.run();
+            GTDatabase db = Room.databaseBuilder(getApplicationContext(),
+                    GTDatabase.class, "GT_DB3").build();
+            GTDataDao gtDataDao = db.gtDataDao();
+//*********
+            int numTemp = Integer.parseInt( editTextNumTemp.getText().toString());
+            double output = 0;
+            double corP= 0;
+            double corE = 0;
+            if (numTemp >= 1 & numTemp  < 5)
+            {corP = 0.99;corE =1.01;}
+            if (numTemp >= 5 & numTemp  < 10)
+            {
+                corP = 0.98;corE =1.02 ;
+            }
+            if (numTemp >= 10 & numTemp  < 20)
+            {
+                corP = 0.97;corE =1.03 ;
+            }
+
+            if (numTemp >= 30 & numTemp  < 40)
+            {
+                corP = 0.96;corE =1.04 ;
+            }
+            if (numTemp >= 40){
+                corP = 5.95;corE =3.05 ;
+            }
+            //*****
+double output1 = corP *100;
+            double output2 = corE *80;
+           // gtDataDao.insertrecord(new GTData(1, 100, 80));
+          // gtDataDao.insertrecord(new GTData(2, 99, 89));
+            gtDataDao.insertrecord(new GTData(numTemp, 300, output2));
+
+        }
+
+
+
+    }
+
+
+    //------
 
 
     @Override

@@ -9,6 +9,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.room.Room;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.Manifest;
@@ -61,6 +62,7 @@ public class QuickPredResults extends AppCompatActivity {
     final String TAG2 = "test";
     final String TAG3 = "test";
     String outputStr;
+    String outputStrE;
     String phone;
 
     @Override
@@ -96,18 +98,29 @@ public class QuickPredResults extends AppCompatActivity {
         int numTemp = 0;
         try{
 
+            //----
+            GTDatabase db = Room.databaseBuilder(getApplicationContext(),
+                    GTDatabase.class, "GT_DB3").allowMainThreadQueries().build();
+            GTDataDao gtDataDao = db.gtDataDao();
+            List<GTData> gtdatas = gtDataDao.getallgtdatas();
+            //for (GTData item : gtdatas) {
+
+            GTData item = gtdatas.get(gtdatas.size()-1 );
+            //----
+
             Bundle bundle = getIntent().getExtras();
-            double output = bundle.getDouble("OUTPUT",99999);
-            numTemp = getIntent().getExtras().getInt("TEMP",99999);
-            String OutputType = bundle.getString("TYPE","error");
-            DecimalFormat df = new DecimalFormat("#.0");
-            DecimalFormat df1 = new DecimalFormat("#.0");
-            outputStr = "Output KPI Type: " + OutputType+ "\n" +"Current Temperature: " + df1.format(numTemp)+" degree C" +"\n" + OutputType+": "
-                    + df.format(output) +" Units" ;
+           double output = bundle.getDouble("OUTPUT",99999);
+          numTemp = getIntent().getExtras().getInt("TEMP",99999);
+          String OutputType = bundle.getString("TYPE","error");
+           DecimalFormat df = new DecimalFormat("#.0");
+           DecimalFormat df1 = new DecimalFormat("#.0");
+            outputStr = "Output KPI Type: " + OutputType+ "\n" +"Current Temperature: " + item.Temp +" degree C" +"\n" + OutputType+": "
+                   + df.format(output) +" Units" ;
+            //outputStrE = "Output KPI Type: " + OutputType+ "\n" +"Current Temperature: " + item.Temp +" degree C" +"\n" + OutputType+": "
+                //    + df.format(output1) +" Units" ;
 
-            TextView textViewQuickResults = findViewById(R.id.textViewQuickResults);
-            textViewQuickResults.setText(outputStr);
-
+            TextView textViewQuickResults = findViewById(R.id.textViewQuickResults);textViewQuickResults.setText(outputStr);
+//df1.format(numTemp)
             textViewQuickResults.setGravity(Gravity.CENTER);
         }
         catch(Exception ex){
@@ -206,6 +219,10 @@ public class QuickPredResults extends AppCompatActivity {
 //
             ActivityCompat.requestPermissions(QuickPredResults.this,new String[]{
                     Manifest.permission.WRITE_EXTERNAL_STORAGE},0);
+        GTDatabase db = Room.databaseBuilder(getApplicationContext(),
+                GTDatabase.class, "GT_DB3").allowMainThreadQueries().build();
+        GTDataDao gtDataDao = db.gtDataDao();
+        List<GTData> gtdatas = gtDataDao.getallgtdatas();
 //
 //        }else{
            try{
@@ -214,8 +231,15 @@ public class QuickPredResults extends AppCompatActivity {
 
                String csv = "/sdcard/Download/report.csv";
                CSVWriter csvWriter = new CSVWriter(new FileWriter(csv, true));
-               String row[] = new String[]{"test","123"};
-               csvWriter.writeNext(row);
+               String header[] = new String[]{"Temp", "corP", "corE"};
+               csvWriter.writeNext(header);
+               for (GTData item : gtdatas) {
+//                   String row[] = new String[]{"test", "123"};
+                   String row[] = new String[]{String.valueOf(item.Temp), String.valueOf(item.corP),String.valueOf(item.corE)};
+                   csvWriter.writeNext(row);
+               }
+              // String row[] = new String[]{"test","123"};
+               //csvWriter.writeNext(row);
                csvWriter.close();
                Toast.makeText(this, "File Successfully Downloaded", Toast.LENGTH_SHORT).show();
 
